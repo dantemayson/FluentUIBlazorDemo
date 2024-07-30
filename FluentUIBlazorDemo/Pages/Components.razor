@@ -1,0 +1,1508 @@
+﻿@page "/components"
+@namespace FluentUI.Demo.Shared
+@inject IDialogService DialogService
+@using FluentUIBlazorDemo.Models
+@using FluentUIBlazorDemo.Pages
+@using FluentUIBlazorDemo
+@inject IToastService ToastService
+
+
+
+<FluentHeader>
+    Accordion
+</FluentHeader>
+<br />
+
+<FluentAccordion ActiveId="@activeId" OnAccordionItemChange="HandleOnAccordionItemChange">
+    <FluentAccordionItem Heading="Panel one">
+        <FluentIcon Value="@(new Icons.Regular.Size20.Globe())" Color="@Color.Neutral" Slot="start" />
+        Panel one content, using the 'start' slot for extra header content (in this case an icon)
+    </FluentAccordionItem>
+    <FluentAccordionItem Heading="Panel two">
+        <div slot="end">
+            #end#
+        </div>
+        Panel two content, using the 'end' slot for extra header content (in this case an HTML button)
+    </FluentAccordionItem>
+    <FluentAccordionItem Expanded="true" Heading="Panel three">
+        Panel three content
+    </FluentAccordionItem>
+    <FluentAccordionItem Expanded="true">
+        <HeadingTemplate>
+            Panel <span style="color:red">Four</span>
+        </HeadingTemplate>
+        <ChildContent>
+            Panel four content
+        </ChildContent>
+    </FluentAccordionItem>
+</FluentAccordion>
+
+<p>Last changed accordion item: @(changed?.Heading ?? "item with HeaderTemplate")</p>
+
+<br />
+<br />
+<FluentHeader>
+    Anchor
+</FluentHeader>
+<br />
+<p>Default</p>
+<FluentAnchor Href="#">Anchor</FluentAnchor>
+
+<p>With target</p>
+<FluentAnchor Href="https://microsoft.com" Target="_blank">Anchor</FluentAnchor>
+
+<p>With aria-label</p>
+<FluentAnchor Href="#" aria-label="Anchor with aria-label"></FluentAnchor>
+<div style="display: flex; align-items: center; gap: 10px;">
+    <FluentAnchor Href="#" Appearance="Appearance.Neutral">Neutral</FluentAnchor>
+
+    <FluentAnchor Href="#" Appearance="Appearance.Accent">Accent</FluentAnchor>
+
+    <FluentAnchor Href="#" Appearance="Appearance.Hypertext">Hypertext</FluentAnchor>
+
+    <FluentAnchor Href="#" Appearance="Appearance.Lightweight">Lightweight</FluentAnchor>
+
+    <FluentAnchor Href="#" Appearance="Appearance.Outline">Outline</FluentAnchor>
+
+    <FluentAnchor Href="#" Appearance="Appearance.Stealth">Stealth</FluentAnchor>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1em;">
+    <FluentAnchor Href="#" IconStart="@(new Icons.Regular.Size16.Globe())">
+        With icon at start
+    </FluentAnchor>
+
+    <FluentAnchor Href="#" IconEnd="@(new Icons.Regular.Size16.Globe())">
+        With icon at end
+    </FluentAnchor>
+</div>
+
+<p>With icon in the content. By doing it this way, it is possible to specify <code>Color</code> for the icon.</p>
+<FluentAnchor Href="#">
+    With icon in content
+    <FluentIcon Value="@(new Icons.Regular.Size32.Globe())" Color="@Color.Accent" Slot="end" />
+</FluentAnchor>
+
+
+
+<div style="display: flex; align-items: center; gap: 10px; margin-top: 1em;">
+    With icon in default slot:
+    <FluentAnchor Href="#">
+        <FluentIcon Value="@(new Icons.Regular.Size16.Globe())" />
+    </FluentAnchor>
+
+</div>
+
+<p style="font-weight:400;">
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt ut aliquam quas quod ipsam cupiditate, voluptate,
+    corrupti <FluentAnchor Class="specialbg" Appearance="Appearance.Hypertext" Href="#">doloremque totam</FluentAnchor> dicta perspiciatis
+    commodi consequatur reprehenderit laborum aliquid minima. Neque, recusandae. Adipisci.
+</p>
+
+<br />
+<br />
+<FluentHeader>
+    Anchored region
+</FluentHeader>
+<br />
+<div id="viewport-locked" style="position:relative;height:400px;width:400px;background: var(--neutral-layer-4);overflow:auto">
+    <FluentAnchoredRegion Anchor="anchor-locked" Viewport="viewport-locked"
+                          VerticalPositioningMode="AxisPositioningMode.Locktodefault"
+                          VerticalDefaultPosition="VerticalPosition.Bottom"
+                          HorizontalPositioningMode="AxisPositioningMode.Locktodefault"
+                          HorizontalDefaultPosition="HorizontalPosition.Right">
+        <div style="height:150px;width:150px;background:var(--neutral-layer-2);" />
+    </FluentAnchoredRegion>
+    <div style="position:relative;height:0;width:0">
+        <FluentAnchoredRegion Anchor="anchor-locked" Viewport="viewport-locked"
+                              VerticalPositioningMode="AxisPositioningMode.Locktodefault"
+                              VerticalDefaultPosition="VerticalPosition.Top"
+                              HorizontalPositioningMode="AxisPositioningMode.Locktodefault"
+                              HorizontalDefaultPosition="HorizontalPosition.Right">
+            <div style="height:100px;width:100px;background:var(--highlight-bg);" />
+        </FluentAnchoredRegion>
+    </div>
+    <FluentAnchoredRegion Anchor="anchor-locked" Viewport="viewport-locked"
+                          VerticalPositioningMode="AxisPositioningMode.Locktodefault"
+                          VerticalDefaultPosition="VerticalPosition.Top"
+                          HorizontalPositioningMode="AxisPositioningMode.Locktodefault"
+                          HorizontalDefaultPosition="HorizontalPosition.Left">
+        <div style="height:50px;width:50px;background:var(--accent-fill-active);" />
+    </FluentAnchoredRegion>
+    <div />
+    <FluentButton Appearance=Appearance.Neutral id="anchor-locked" style="margin-left:100px;margin-top:150px">anchor</FluentButton>
+</div>
+
+<br />
+<br />
+<FluentHeader>
+    Anchored region
+</FluentHeader>
+<br />
+<FluentBadge Appearance="Appearance.Lightweight" OnClick="@((e) => Console.WriteLine("Badge Clicked"))">
+    Lightweight
+</FluentBadge>
+
+<FluentBadge Appearance="Appearance.Accent">
+    Accent
+</FluentBadge>
+
+<FluentBadge Appearance="Appearance.Neutral">
+    Neutral
+</FluentBadge>
+
+<FluentBadge Fill="somevalue" BackgroundColor="red" Color="white">Red and White</FluentBadge>
+
+
+<FluentBadge Appearance="Appearance.Neutral" Fill="highlight" BackgroundColor="#ffd800;" Color="#000">Highlight</FluentBadge>
+
+<FluentBadge Appearance="Appearance.Neutral" Fill="lowlight" BackgroundColor="#000" Color="#fff">Lowlight</FluentBadge>
+
+<FluentBadge Appearance="Appearance.Neutral" Width="250px" Height="250px" OnDismissClick="@((e) => Console.WriteLine("Badge dismissed"))">Bigger</FluentBadge>
+
+<br />
+<br />
+<FluentHeader>
+    CounterBadge
+</FluentHeader>
+<br />
+<FluentCounterBadge Count="100" Appearance="Appearance.Accent">
+    <FluentButton>
+        <FluentIcon Value="@(new Icons.Regular.Size24.Alert())" Color="@Color.Neutral" />
+    </FluentButton>
+</FluentCounterBadge>
+
+<FluentSpacer Width="25" />
+
+<FluentCounterBadge Count="5" Appearance="Appearance.Neutral">
+    <FluentButton Appearance="Appearance.Accent">
+        <FluentIcon Value="@(new Icons.Regular.Size24.Alert())" Color="@Color.Fill" />
+    </FluentButton>
+</FluentCounterBadge>
+
+<FluentSpacer Width="25" />
+
+<FluentCounterBadge Count="5" Appearance="Appearance.Lightweight">
+    <FluentButton Appearance="Appearance.Accent">
+        <FluentIcon Value="@(new Icons.Regular.Size24.Alert())" Color="@Color.Fill" />
+    </FluentButton>
+</FluentCounterBadge>
+
+<FluentSpacer Width="25" />
+
+<FluentCounterBadge Count="5" Appearance="Appearance.Lightweight" BackgroundColor="Color.Lightweight" Color="Color.Error">
+    <FluentButton Appearance="Appearance.Accent">
+        <FluentIcon Value="@(new Icons.Regular.Size24.Alert())" Color="@Color.Fill" />
+    </FluentButton>
+</FluentCounterBadge>
+
+<FluentSpacer Width="25" />
+
+
+<FluentCounterBadge Count="9" BackgroundColor="@Color.Error" Color="Color.Fill">
+    <FluentButton Appearance="Appearance.Neutral">
+        <FluentIcon Value="@(new Icons.Regular.Size24.Mail())" Color="@Color.FillInverse" />
+    </FluentButton>
+</FluentCounterBadge>
+
+<FluentSpacer Width="25" />
+
+<FluentCounterBadge Count="0" Appearance="Appearance.Accent" ShowZero=true>
+    <FluentButton>
+        <FluentIcon Value="@(new Icons.Regular.Size24.Alert())" Color="@Color.Neutral" />
+    </FluentButton>
+</FluentCounterBadge>
+
+<br />
+<br />
+<FluentHeader>
+    CounterBadge
+</FluentHeader>
+<br />
+<FluentPresenceBadge Status="PresenceStatus.Available" Size="PresenceBadgeSize.Tiny">
+    <FluentIcon Value="@(new Icons.Regular.Size24.Person())" Width="24px" />
+</FluentPresenceBadge>
+
+<FluentSpacer Width="25" />
+
+<FluentPresenceBadge Status="PresenceStatus.Available" Size="PresenceBadgeSize.ExtraSmall">
+    <FluentIcon Value="@(new Icons.Regular.Size24.Person())" Width="32px" />
+</FluentPresenceBadge>
+
+<FluentSpacer Width="25" />
+
+<FluentPresenceBadge Status="PresenceStatus.Available" Size="PresenceBadgeSize.Small">
+    <FluentIcon Value="@(new Icons.Regular.Size24.Person())" Width="36px" />
+</FluentPresenceBadge>
+
+<FluentSpacer Width="25" />
+
+<FluentPresenceBadge Status="PresenceStatus.Available" Size="PresenceBadgeSize.Medium">
+    <FluentIcon Value="@(new Icons.Regular.Size24.Person())" Width="48px" />
+</FluentPresenceBadge>
+
+<FluentSpacer Width="25" />
+
+<FluentPresenceBadge Status="PresenceStatus.Available" Size="PresenceBadgeSize.Large">
+    <FluentIcon Value="@(new Icons.Regular.Size24.Person())" Width="64px" />
+</FluentPresenceBadge>
+
+<br />
+<br />
+<FluentHeader>
+    Breadcrumb
+</FluentHeader>
+<br />
+<FluentBreadcrumbItem Href="#">
+    Breadcrumb item
+</FluentBreadcrumbItem>
+
+<br />
+<br />
+<FluentHeader>
+    Breadcrumb
+</FluentHeader>
+<br />
+<FluentStack HorizontalGap="10">
+    <FluentButton>Button</FluentButton>
+    <FluentButton Appearance="Appearance.Accent">Accent</FluentButton>
+    <FluentButton Appearance="Appearance.Lightweight">Lightweight</FluentButton>
+    <FluentButton Appearance="Appearance.Outline">Outline</FluentButton>
+    <FluentButton Appearance="Appearance.Stealth">Stealth</FluentButton>
+    <FluentButton BackgroundColor="var(--highlight-bg)" Color="var(--info)">Colored</FluentButton>
+</FluentStack>
+
+<br />
+<br />
+<FluentHeader>
+    Card
+</FluentHeader>
+<br />
+<FluentCard Width="400px" Height="400px">
+    <p>Just some content in a card (with a button that does not do anything).</p>
+    <FluentButton Appearance="Appearance.Accent">Hello</FluentButton>
+</FluentCard>
+
+<FluentCard>
+    <p>Just some content in a card (with a button that does not do anything).</p>
+
+    <FluentButton Appearance="Appearance.Accent">Hello</FluentButton>
+    <p>No Width or Height has been specified.</p>
+</FluentCard>
+
+<br />
+<br />
+<FluentHeader>
+    Combobox
+</FluentHeader>
+<br />
+
+<h4>Select the best song from the list or type your own</h4>
+<FluentCombobox Label="Best song" Items="@Data" @bind-Value="@hit" Height="200px" />
+<p>
+    Selected Country: @hit
+</p>
+
+<h4>Pre-selected option</h4>
+<FluentCombobox AriaLabel="Pre-selected option" Items="@Data" @bind-Value="@name" Height="200px" />
+<p>
+    Selected Country: @name
+</p>
+
+<h4>With Placeholder</h4>
+<FluentCombobox Placeholder="Please select a size" Items="@Data" @bind-Value="@size" Height="200px" />
+<p>
+    Selected Country: @size
+</p>
+
+<br />
+<br />
+<FluentHeader>
+    Data grid
+</FluentHeader>
+<br />
+<FluentDataGrid Items="@people">
+    <PropertyColumn Property="@(p => p.PersonId)" Sortable="true" />
+    <PropertyColumn Property="@(p => p.Name)" Sortable="true" />
+    <PropertyColumn Property="@(p => p.BirthDate)" Format="yyyy-MM-dd" Sortable="true" />
+</FluentDataGrid>
+
+<br />
+<br />
+<FluentHeader>
+    Dialog
+</FluentHeader>
+<br />
+<div>
+    <p>
+        When 'Modal' is checked, the dialog can be <em>dismissed</em> by clicking outside of the dialog (anywhere on the overlay). When unchecked,
+        the dialog can be <em>dismissed</em> only by the 'ESC' key.<br />The dialog can always be <em>closed</em> by using the 'Close dialog'
+        button.
+    </p>
+    <p>
+        When 'Trap focus' is checked, only the elements within the dialog will receive focus. When unchecked, focus will also move outside of the
+        dialog.
+    </p>
+    <FluentCheckbox Name="modal" @bind-Value="_modal">
+        Modal
+    </FluentCheckbox>
+    <FluentCheckbox Name="trap" @bind-Value="_trapFocus">
+        Trap focus
+    </FluentCheckbox>
+</div>
+<div style="margin-top: 1rem;">
+    <FluentButton @onclick="@OpenDialogAsync" Appearance="Appearance.Accent">
+        Open Dialog
+    </FluentButton>
+</div>
+
+<br />
+<br />
+<FluentHeader>
+    Divider
+</FluentHeader>
+<br />
+<h4>Default</h4>
+<FluentDivider></FluentDivider>
+<br />
+<h4>Role="Presentation""</h4>
+<p>
+    <FluentStack Orientation="Orientation.Vertical">
+        <span>before divider</span>
+        <FluentDivider Style="width: 100%;" Role="DividerRole.Presentation"></FluentDivider>
+        <span>after divider</span>
+    </FluentStack>
+</p>
+
+<h4>Role="Separator""</h4>
+<p>
+    <FluentStack Orientation="Orientation.Vertical">
+        <span>before divider</span>
+        <FluentDivider Style="width: 100%;" Orientation=Orientation.Horizontal Role="DividerRole.Separator"></FluentDivider>
+        <span>after divider</span>
+    </FluentStack>
+</p>
+
+<br />
+<br />
+<FluentHeader>
+    Drag and Drop
+</FluentHeader>
+<br />
+<FluentDragContainer TItem="string"
+                     OnDragEnter="@(e => Console.WriteLine($"{e.Source.Id} is entered in  {e.Target.Id}"))"
+                     OnDragLeave="@(e => Console.WriteLine($"{e.Source.Id} has left {e.Target.Id}"))"
+                     OnDropEnd="@(e => Console.WriteLine($"{e.Source.Id} dropped in {e.Target.Id}"))">
+    <FluentStack>
+        <FluentDropZone Id="Item1" Draggable="true" Droppable="true">
+            <div style="width: 50px; height: 50px; background-color: pink;">
+                Item 1
+            </div>
+        </FluentDropZone>
+        <FluentDropZone Id="Item2" Draggable="true" Droppable="true">
+            <div style="width: 50px; height: 50px; background-color: lightgreen;">
+                Item 2
+            </div>
+        </FluentDropZone>
+    </FluentStack>
+</FluentDragContainer>
+
+<br />
+<br />
+<FluentHeader>
+    Drag and Drop
+</FluentHeader>
+<br />
+<FluentStack>
+    <FluentEmoji Value="@(new Emojis.PeopleBody.Color.Default.Artist())" />
+    <FluentEmoji Value="@(new Emojis.SmileysEmotion.Color.Default.RollingOnTheFloorLaughing())" Width="50px" />
+
+    @(new Emojis.Objects.Color.Default.Accordion().ToMarkup("80px"))
+    @(new Emojis.TravelPlaces.Color.Default.Ambulance().ToMarkup())
+</FluentStack>
+
+<br />
+<br />
+<FluentHeader>
+    Drag and Drop
+</FluentHeader>
+<br />
+<h4>Previous</h4>
+<FluentFlipper Direction="FlipperDirection.Previous"></FluentFlipper>
+
+<h4>Next</h4>
+<FluentFlipper Direction="FlipperDirection.Next"></FluentFlipper>
+
+<h4>With aria-hidden</h4>
+<FluentFlipper AriaHidden="false"></FluentFlipper>
+
+<h4>Disabled</h4>
+<FluentFlipper Disabled="true"></FluentFlipper>
+
+<br />
+<br />
+<FluentHeader>
+    Highlighter
+</FluentHeader>
+<br />
+
+<input type="text" @bind-Value="@Highlight" @bind-Value:event="oninput" />
+<br />
+<br />
+
+<FluentHighlighter HighlightedText="@Highlight"
+                   Delimiters=" ,;"
+                   Text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde suscipit, quam beatae rerum inventore consectetur." />
+
+<br />
+<br />
+<FluentHeader>
+    Horizontal Scroll
+</FluentHeader>
+<br />
+
+<FluentHorizontalScroll Speed="600" Easing=ScrollEasing.EaseInOut @onscrollstart=OnHorizontalScrollStart @onscrollend=OnHorizontalScrollEnd>
+    <FluentCard>
+        Card number 1
+        <FluentButton Appearance="Appearance.Neutral">A button</FluentButton>
+    </FluentCard>
+    <FluentCard>Card number 2</FluentCard>
+    <FluentCard>Card number 3</FluentCard>
+    <FluentCard>Card number 4</FluentCard>
+    <FluentCard>Card number 5</FluentCard>
+    <FluentCard>Card number 6</FluentCard>
+    <FluentCard>Card number 7</FluentCard>
+    <FluentCard>Card number 8</FluentCard>
+    <FluentCard>Card number 9</FluentCard>
+    <FluentCard>Card number 10</FluentCard>
+    <FluentCard>Card number 11</FluentCard>
+    <FluentCard>Card number 12</FluentCard>
+    <FluentCard>Card number 13</FluentCard>
+    <FluentCard>Card number 14</FluentCard>
+    <FluentCard>Card number 15</FluentCard>
+    <FluentCard>Card number 16</FluentCard>
+</FluentHorizontalScroll>
+
+<br />
+<br />
+<FluentHeader>
+    Icon
+</FluentHeader>
+<br />
+<FluentStack VerticalAlignment="VerticalAlignment.Center">
+    <FluentIcon Value="@(new Icons.Regular.Size24.Save())" Title="Save" />
+    <FluentIcon Value="@(new Icons.Regular.Size24.Open())" Title="Open" Color="Color.Error" />
+    <FluentIcon Value="@(new Icons.Regular.Size24.Album())" />
+
+    <FluentIcon Value="@(Icon.FromImageUrl("_content/FluentUI.Demo.Shared/images/BlazorLogo.png"))" Width="24px"/>
+
+    @(new Icons.Regular.Size20.Add().ToMarkup())
+    @(new Icons.Regular.Size20.Airplane().ToMarkup("16px", "blue"))
+
+    <FluentButton IconStart="@(new Icons.Regular.Size24.ArrowCircleLeft())">
+        Back
+    </FluentButton>
+
+    <FluentButton IconEnd="@(new Icons.Regular.Size24.ArrowCircleRight().WithColor(Color.Success))">
+        Next
+    </FluentButton>
+
+    <FluentButton IconEnd="@(new Icons.Regular.Size24.DismissCircle().WithColor("red"))">
+        Exit
+    </FluentButton>
+
+    <FluentButton Appearance="Appearance.Accent"
+                  IconEnd="@(new Icons.Regular.Size24.Alert().WithColor(Color.Fill))">
+        Next
+    </FluentButton>
+
+</FluentStack>
+
+<br />
+<br />
+<FluentHeader>
+    Lable
+</FluentHeader>
+<br />
+<FluentLabel Typo="Typography.Body"> Example 'Body' label </FluentLabel>
+<FluentLabel Typo="Typography.Subject"> Example 'Subject' label </FluentLabel>
+<FluentLabel Typo="Typography.Header"> Example 'Header' label </FluentLabel>
+<FluentLabel Typo="Typography.PaneHeader"> Example 'PaneHeader' label </FluentLabel>
+<FluentLabel Typo="Typography.EmailHeader"> Example 'EmailHeader' label </FluentLabel>
+<FluentLabel Typo="Typography.PageTitle"> Example 'PageTitle' label </FluentLabel>
+<FluentLabel Typo="Typography.HeroTitle"> Example 'HeroTitle' label </FluentLabel>
+<FluentLabel Typo="Typography.H1"> Example 'H1' label </FluentLabel>
+<FluentLabel Typo="Typography.H2"> Example 'H2' label </FluentLabel>
+<FluentLabel Typo="Typography.H3"> Example 'H3' label </FluentLabel>
+<FluentLabel Typo="Typography.H4"> Example 'H4' label </FluentLabel>
+<FluentLabel Typo="Typography.H5"> Example 'H5' label </FluentLabel>
+<FluentLabel Typo="Typography.H6"> Example 'H6' label </FluentLabel>
+
+
+<br />
+<br />
+<FluentHeader>
+    Listbox
+</FluentHeader>
+<br />
+<FluentListbox TOption="string" ValueChanged="@(e => listboxValue = e)">
+    <FluentOption>This option has no value</FluentOption>
+    <FluentOption Value="Item 1" Disabled="true">This option is disabled</FluentOption>
+    <FluentOption Value="Item 2">This option has a value</FluentOption>
+    <FluentOption Value="Item 3">
+        <FluentIcon Value="@(new Icons.Regular.Size16.Folder())" Slot="start" />
+        This option has <b>an icon</b>
+    </FluentOption>
+    <FluentOption Value="Item 4" Selected=true>
+        <div style="display:flex; flex-direction:row">
+            <img style="width:20px" src="_content/FluentUI.Demo.Shared/flags/nl.svg" />This option is selected by default
+        </div>
+    </FluentOption>
+</FluentListbox>
+
+<p>Selected: @listboxValue</p>
+
+
+<br />
+<br />
+<FluentHeader>
+    Menu
+</FluentHeader>
+<br />
+<p>Click this button to open a Menu.</p>
+<FluentButton id="btnOpen1" Appearance="Appearance.Accent" @onclick="@(() => open = !open)">
+    Open menu
+</FluentButton>
+
+<FluentMenu Anchor="btnOpen1" @bind-Open="open" @onmenuchange=OnMenuChange>
+    <FluentMenuItem OnClick="@((e) => Console.WriteLine("Item 1 Clicked"))">
+        Menu item 1
+    </FluentMenuItem>
+    <FluentMenuItem OnClick="@((e) => Console.WriteLine("Item 2 Clicked"))"
+                    Checked="true">
+        Menu item 2 Checked
+    </FluentMenuItem>
+    <FluentMenuItem OnClick="@((e) => Console.WriteLine("Item 3 Clicked"))"
+                    Disabled="true">
+        Menu item 3 Disabled
+    </FluentMenuItem>
+    <FluentMenuItem OnClick="@((e) => Console.WriteLine("Item 4 Clicked"))">
+        <span slot="start"><FluentIcon Value="@(new Icons.Regular.Size24.ClipboardPaste())" Color="Color.Neutral" Slot="start" /></span>
+        Menu item 4 with Icon
+    </FluentMenuItem>
+</FluentMenu>
+
+<p>@status</p>
+
+
+<br />
+<br />
+<FluentHeader>
+    MenuButton
+</FluentHeader>
+<br />
+<FluentMenuButton @ref=menubutton Text="Select brand color" Items="@items" ></FluentMenuButton>
+
+<br />
+<br />
+<FluentHeader>
+    MessageBox
+</FluentHeader>
+<br />
+<FluentStack>
+    <FluentButton OnClick="@ShowSuccessAsync" Appearance="Appearance.Accent">Success</FluentButton>
+    <FluentButton OnClick="@ShowWarningAsync" Appearance="Appearance.Accent">Warning</FluentButton>
+    <FluentButton OnClick="@ShowErrorAsync" Appearance="Appearance.Accent">Error</FluentButton>
+    <FluentButton OnClick="@ShowInformationAsync" Appearance="Appearance.Accent">Information</FluentButton>
+    <FluentButton OnClick="@ShowConfirmationAsync" Appearance="Appearance.Accent">Confirmation</FluentButton>
+    <FluentButton OnClick="@ShowMessageBoxLongAsync" Appearance="Appearance.Accent">Long message</FluentButton>
+    <FluentButton OnClick="@ShowMessageBoxAsync" Appearance="Appearance.Accent">Custom message</FluentButton>
+</FluentStack>
+
+<p>
+    Last result: @(canceled == null ? "" : (canceled == true ? "❌ Canceled" : "✅ OK"))
+</p>
+
+
+<br />
+<br />
+<FluentHeader>
+    NavMenu, NavMenuTree
+</FluentHeader>
+<br />
+<FluentStack Orientation="Orientation.Horizontal">
+    <div style="background: var(--neutral-layer-3); display: flex; padding: 10px;">
+        <FluentNavMenu @bind-Expanded="@expanded" Width="250" Title="Custom navigation menu">
+            <FluentNavLink Icon="@(new Icons.Regular.Size20.Home())" Href="/" Match="NavLinkMatch.All">Home</FluentNavLink>
+            <FluentNavLink Href="/NavMenu">Item 2</FluentNavLink>
+            <FluentNavGroup OnClick="OnClick" Title="Item 3" Icon="@(new Icons.Regular.Size20.EarthLeaf())">
+                <TitleTemplate><h3>Item 3</h3></TitleTemplate>
+                <ChildContent>
+                    <FluentNavLink OnClick="OnClick" Icon="@(new Icons.Regular.Size20.LeafOne())">Item 3.1</FluentNavLink>
+                    <FluentNavLink OnClick="OnClick" Icon="@(new Icons.Regular.Size20.LeafTwo())">Item 3.2</FluentNavLink>
+                </ChildContent>
+            </FluentNavGroup>
+            <FluentNavLink Icon="@(new Icons.Regular.Size20.CalendarAgenda())" Disabled="true" Href="https://microsoft.com">Item 4</FluentNavLink>
+            <FluentNavLink Icon="@(new Icons.Regular.Size20.Home())" Disabled="true">Item 5</FluentNavLink>
+            <FluentNavGroup Expanded="true" Title="Item 6 Item 6 Item 6 Item 6 Item 6" Icon="@(new Icons.Regular.Size20.EarthLeaf())">
+                <FluentNavLink Icon="@(new Icons.Regular.Size20.LeafOne())">Item 6.1</FluentNavLink>
+                <FluentNavLink Icon="@(new Icons.Regular.Size20.LeafTwo())">Item 6.2</FluentNavLink>
+                <FluentNavGroup Expanded="true" Title="Item 6.3" Icon="@(new Icons.Regular.Size20.EarthLeaf())">
+                    <FluentNavLink Icon="@(new Icons.Regular.Size20.LeafOne())">Item 6.3.1 Item 6.3.1 Item 6.3.1</FluentNavLink>
+                    <FluentNavLink Icon="@(new Icons.Regular.Size20.LeafTwo())">Item 6.3.2</FluentNavLink>
+                    <FluentNavGroup Expanded="true" Title="Item 6.3.3 Item 6.3.3 Item 6.3.3" Icon="@(new Icons.Regular.Size20.EarthLeaf())">
+                        <FluentNavLink Icon="@(new Icons.Regular.Size20.LeafOne())">Item 6.3.3.1</FluentNavLink>
+                        <FluentNavLink Disabled="true" Icon="@(new Icons.Regular.Size20.LeafTwo())">Item 6.3.3.2</FluentNavLink>
+                        <FluentNavGroup Disabled="true" Expanded="true" Title="Item 6.3.3.3" Icon="@(new Icons.Regular.Size20.EarthLeaf())">
+                            <FluentNavLink Icon="@(new Icons.Regular.Size20.LeafOne())">Item 6.3.3.3.1</FluentNavLink>
+                            <FluentNavLink Icon="@(new Icons.Regular.Size20.LeafTwo())">Item 6.3.3.3.2</FluentNavLink>
+                        </FluentNavGroup>
+                    </FluentNavGroup>
+                </FluentNavGroup>
+            </FluentNavGroup>
+        </FluentNavMenu>
+    </div>
+
+   
+
+    <!-- Menu with icons -->
+    <FluentNavMenu>
+        <FluentNavLink OnClick="OnClick" Icon="@(new Icons.Regular.Size24.Home())">Item 1</FluentNavLink>
+        <FluentNavLink OnClick="OnClick">Item 2</FluentNavLink>
+        <FluentNavLink OnClick="OnClick" Icon="@(new Icons.Regular.Size24.LeafOne())">Item 3</FluentNavLink>
+        <FluentNavLink OnClick="OnClick">Item 4</FluentNavLink>
+    </FluentNavMenu>
+
+    <!-- Menu simple -->
+    <FluentNavMenu>
+        <FluentNavLink OnClick="OnClick">Item 1</FluentNavLink>
+        <FluentNavLink OnClick="OnClick">Item 2</FluentNavLink>
+        <FluentNavLink OnClick="OnClick">Item 3</FluentNavLink>
+        <FluentNavLink OnClick="OnClick">Item 4</FluentNavLink>
+    </FluentNavMenu>
+
+</FluentStack>
+
+
+<FluentStack Orientation="Orientation.Horizontal">
+    <!-- Menu with sub-items and icons -->
+    <FluentNavMenuTree Collapsible="false" Title="Navigation  demo">
+        <FluentNavMenuLink Text="Item 1" Icon="@(new Icons.Regular.Size24.Home())" Href="/NavMenu" />
+        <FluentNavMenuLink Text="Item 2" Href="/NavMenu" />
+        <FluentNavMenuGroup Text="Item 3" Href="/NavMenu">
+            <FluentNavMenuLink Text="Item 3.1" Icon="@(new Icons.Regular.Size24.LeafOne())" Href="/NavMenu" />
+            <FluentNavMenuLink Text="Item 3.2" Icon="@(new Icons.Regular.Size24.LeafTwo())" Href="/NavMenu" />
+        </FluentNavMenuGroup>
+        <FluentNavMenuGroup Text="Item 4" @onclick="OnClick" Href="/NavMenu">
+            <FluentNavMenuLink Text="Item 4.1" @onclick="OnClick" Href="/NavMenu" />
+            <FluentNavMenuLink Text="Item 4.2" @onclick="OnClick" Icon="@(new Icons.Regular.Size24.LeafOne())" Href="/NavMenu" />
+        </FluentNavMenuGroup>
+        <FluentNavMenuGroup Text="Item 5" @onclick="OnClick" Href="/NavMenu">
+            <FluentNavMenuLink Text="Item 5.1" @onclick="OnClick" Icon="@(new Icons.Regular.Size24.LeafTwo())" Href="/NavMenu" />
+            <FluentNavMenuGroup @onclick="OnClick" Text="Item 5.2" Href="/NavMenu">
+                <FluentNavMenuLink Text="Item 5.2.1" @onclick="OnClick" Href="/NavMenu" />
+                <FluentNavMenuLink Text="Item 5.2.2" @onclick="OnClick" Href="/NavMenu" />
+            </FluentNavMenuGroup>
+            <FluentNavMenuGroup @onclick="OnClick" Text="Item 5.3" Href="/NavMenu">
+                <FluentNavMenuLink Text="Item 5.3.1" @onclick="OnClick" Icon="@(new Icons.Regular.Size24.LeafOne())" Href="/NavMenu" />
+                <FluentNavMenuLink Text="Item 5.3.2" @onclick="OnClick" Href="/NavMenu" />
+            </FluentNavMenuGroup>
+        </FluentNavMenuGroup>
+        <FluentNavMenuGroup @onclick="OnClick" Text="Items with Href">
+            <FluentNavMenuLink Text="Go to Bing" @onclick="OnClick" Icon="@(new Icons.Regular.Size24.LeafOne())" Href="https://bing.com" />
+            <FluentNavMenuLink Text="Go to home page" @onclick="OnClick" Icon="@(new Icons.Regular.Size24.Home())" Href="/" />
+        </FluentNavMenuGroup>
+        <FluentNavMenuLink Text="Last item" @onclick="OnClick" Icon="@(new Icons.Regular.Size24.LeafThree())" Disabled="true" />
+    </FluentNavMenuTree>
+
+    <!-- Menu with icons -->
+    <FluentNavMenuTree>
+        <FluentNavMenuLink Text="Item 1" @onclick="OnClick" Icon="@(new Icons.Regular.Size24.Home())" Href="/NavMenu" />
+        <FluentNavMenuLink Text="Item 2" @onclick="OnClick" Href="/NavMenu" />
+        <FluentNavMenuLink Text="Item 3" @onclick="OnClick" Icon="@(new Icons.Regular.Size24.LeafOne())" Href="/NavMenu" />
+        <FluentNavMenuLink Text="Item 4" @onclick="OnClick" Href="/NavMenu" />
+    </FluentNavMenuTree>
+
+    <!-- Menu simple -->
+    <FluentNavMenuTree>
+        <FluentNavMenuLink Text="Item 1" @onclick="OnClick" Href="/NavMenu" />
+        <FluentNavMenuLink Text="Item 2" @onclick="OnClick" Href="/NavMenu" />
+        <FluentNavMenuLink Text="Item 3" @onclick="OnClick" Href="/NavMenu" />
+        <FluentNavMenuLink Text="Item 4" @onclick="OnClick" Href="/NavMenu" />
+    </FluentNavMenuTree>
+
+</FluentStack>
+
+<br />
+<br />
+<FluentHeader>
+    Option
+</FluentHeader>
+<br />
+<FluentSelect Value=@("a string value") TOption="string">
+    <FluentOption>
+        Text content is the value when the value attribute is absent.
+    </FluentOption>
+</FluentSelect>
+<br />
+<FluentSelect Value=@("a string value") TOption="string">
+    <FluentOption Value=@("here is a value attribute")>
+        Even when the value attribute and text are both present, this text should be displayed.
+    </FluentOption>
+</FluentSelect>
+<br />
+<FluentSelect TOption=string>
+    <FluentOption Value=@("This option has no text content.")></FluentOption>
+</FluentSelect>
+
+
+<br />
+<br />
+<FluentHeader>
+    Overflow panel
+</FluentHeader>
+<br />
+<FluentOverflow OnOverflowRaised="OverflowHandler" Style="border: 1px solid lightgray">
+    <ChildContent>
+        @foreach (var item in Items)
+        {
+            <FluentOverflowItem><FluentBadge>@item</FluentBadge></FluentOverflowItem>
+        }
+    </ChildContent>
+    <MoreButtonTemplate>
+        <FluentBadge Style="min-width: 32px; max-width:32px;">
+            @($"+{context.ItemsOverflow.Count()}")
+        </FluentBadge>
+    </MoreButtonTemplate>
+    <OverflowTemplate>
+        <FluentTooltip Anchor="@context.IdMoreButton" UseTooltipService="false">
+            @foreach (var item in context.ItemsOverflow)
+            {
+                <div style="margin: 5px;">@item.Text</div>
+            }
+        </FluentTooltip>
+    </OverflowTemplate>
+</FluentOverflow>
+
+<FluentButton @onclick="@AddNewItemClick">Add</FluentButton>
+
+
+
+<FluentSelect Items=@(Enum.GetValues<JustifyContent>())
+              OptionValue="@(c => c.ToAttributeValue())"
+              TOption="JustifyContent"
+              Position="SelectPosition.Below"
+@bind-SelectedOption="@justification" />
+
+<FluentSelect Items=@(Enum.GetValues<Align>())
+              OptionValue="@(c => c.ToAttributeValue())"
+              TOption="Align"
+              Position="SelectPosition.Below"
+@bind-SelectedOption="@alignment" />
+<br />
+<br />
+
+
+<FluentButton Appearance="Appearance.Accent" @onclick="HandleOnOpen">Show Overlay</FluentButton>
+
+<FluentOverlay @bind-Visible=@visible
+               Opacity="0.4"
+               Alignment="@alignment"
+               Justification="@justification"
+               OnClose="HandleOnClose">
+    <FluentProgressRing />
+</FluentOverlay>
+
+
+<br />
+<br />
+<FluentHeader>
+    Panel
+</FluentHeader>
+<br />
+<FluentButton @onclick="@OpenPanelRightAsync" Appearance="Appearance.Accent">
+    Open panel (&gt;&gt;)
+</FluentButton>
+
+<FluentButton @onclick="@OpenPanelLeftAsync" Appearance="Appearance.Accent">
+    Open panel (&lt;&lt;)
+</FluentButton>
+
+<br />
+<br />
+<FluentHeader>
+    Persona
+</FluentHeader>
+<br />
+<FluentPersona Name="Lydia Bauer"
+               ImageSize="50px"
+               Status="PresenceStatus.Busy"
+               StatusSize="PresenceBadgeSize.Small">
+</FluentPersona>
+
+<br />
+<br />
+<FluentHeader>
+    Popover
+</FluentHeader>
+<br />
+<div style="display: flex; width=100%">
+    <FluentButton id="myPopoverButtonH" Appearance="Appearance.Accent" @onclick="() => _visibleL = !_visibleL">
+        Open Callout 1
+    </FluentButton>
+
+    <FluentSpacer />
+
+    <FluentButton id="myPopoverButtonM" Appearance="Appearance.Accent" @onclick="() => _visibleM = !_visibleM">
+        Open Callout 2
+    </FluentButton>
+
+    <FluentSpacer />
+
+    <FluentButton id="myPopoverButtonF" Appearance="Appearance.Accent" @onclick="() => _visibleR = !_visibleR">
+        Open Callout 3
+    </FluentButton>
+
+    <FluentPopover Style="width: 300px;" AnchorId="myPopoverButtonH" @bind-Open="_visibleL">
+        <Body>
+            Callout Body (no header)
+        </Body>
+        <Footer>Callout Footer</Footer>
+    </FluentPopover>
+
+    <FluentPopover Style="width: 300px;" AnchorId="myPopoverButtonM" @bind-Open="_visibleM" HorizontalPosition="HorizontalPosition.Center">
+        <Header>Callout Header</Header>
+        <Footer>Callout Footer (no body)</Footer>
+    </FluentPopover>
+
+    <FluentPopover Style="width: 300px;" AnchorId="myPopoverButtonF" @bind-Open="_visibleR">
+        <Header>Callout Header</Header>
+        <Body>
+            Callout Body (no footer)
+        </Body>
+
+    </FluentPopover>
+</div>
+
+<br />
+<br />
+<FluentHeader>
+    Progress
+</FluentHeader>
+<br />
+<h4>Default</h4>
+<div style="width: 300px; display: grid; grid-gap: 12px; grid-auto-flow: column;">
+    <FluentProgress Min="0" Max="100" Value="75"></FluentProgress>
+    <FluentProgress></FluentProgress>
+</div>
+
+<div style="width: 300px;display: grid; grid-gap: 12px; grid-auto-flow: column;">
+    <FluentProgressRing Min="0" Max="100" Value="75"></FluentProgressRing>
+    <FluentProgressRing></FluentProgressRing>
+</div>
+
+<h4>Stroke and Color</h4>
+
+<FluentSelect Label="Width" Items="@(new [] { ProgressStroke.Small, ProgressStroke.Normal, ProgressStroke.Large })" @bind-SelectedOption="@Stroke" Width="60px" />
+<FluentCheckbox Label="Indeterminate" @bind-Value="@Indeterminate" />
+<FluentSelect Label="Color2" Items="@(Enum.GetValues<OfficeColor>())" @bind-SelectedOption="@Color2" Width="100px" Height="200px" />
+<FluentSlider Min="0" Max="100" Step="5" @bind-Value="@Percentage" Style="max-width: 200px; margin: 20px 0px;" Disabled="@Indeterminate" />
+
+<FluentStack Style="margin: 30px;">
+    <FluentLabel Style="width: 20px;">@Percentage</FluentLabel>
+
+        <FluentProgressRing Value="@(Indeterminate ? null : Percentage)"
+                            Width="32px"
+                            Stroke="@Stroke"
+                            Color="@(Color2.ToAttributeValue())" />
+
+        <FluentProgressRing Value="@(Indeterminate ? null : Percentage)"
+                            Width="64px"
+                            Stroke="@Stroke"
+                            Color="@(Color2.ToAttributeValue())" />
+
+        <FluentProgressRing Value="@(Indeterminate ? null : Percentage)"
+                            Width="128px"
+                            Stroke="@Stroke"
+                            Color="@(Color2.ToAttributeValue())" />
+    </FluentStack>
+
+<br />
+<br />
+<FluentHeader>
+        Skeleton
+</FluentHeader>
+<br />
+    <FluentCard class="card-padding">
+        <FluentSkeleton Shape="SkeletonShape.Circle"></FluentSkeleton>
+        <FluentSkeleton Style="margin-top: 10px" Height="10px;"></FluentSkeleton>
+        <FluentSkeleton Style="margin-top: 10px" Height="10px;"></FluentSkeleton>
+        <FluentSkeleton Style="margin-top: 10px" Height="10px;"></FluentSkeleton>
+        <FluentSkeleton Style="margin-top: 20px;margin-bottom: 10px;" Width="75px" Height="30px"></FluentSkeleton>
+    </FluentCard>
+
+<br />
+<br />
+<FluentHeader>
+        SplashScreen
+</FluentHeader>
+<br />
+<FluentButton @onclick="@OpenSplashDefault" Appearance="Appearance.Accent">
+    Open splash screen
+</FluentButton>
+
+<FluentButton @onclick="@OpenSplashDefaultAsync" Appearance="Appearance.Accent">
+    Open splash screen (async)
+</FluentButton>
+
+<br />
+<br />
+<FluentHeader>
+        Skeleton
+</FluentHeader>
+<br />
+<FluentSwitch @bind-Value="@DeferredLoading">Use deferred loading</FluentSwitch>
+<p>
+If checked, the contents of Tab two and three will be loaded after 1 second of processing (to simulate a long running process). <br />
+</p>
+
+<FluentTabs @bind-ActiveTabId="@activeid" OnTabChange="HandleOnTabChange" >
+    <FluentTab Label="Tab one" Icon="@(new Icons.Regular.Size24.LeafOne())" Id="tab-1">
+        Tab one content. This is for testing.
+    </FluentTab>
+    <FluentTab Label="Tab two" Id="tab-2" DeferredLoading="@DeferredLoading">
+        @{
+            if (DeferredLoading)
+            {
+                Thread.Sleep(1000);
+            }
+        }
+        Tab two content. This is for testing.
+    </FluentTab>
+    <FluentTab Label="Tab three" Id="tab-3" DeferredLoading="@DeferredLoading">
+        @{
+            if (DeferredLoading)
+            {
+                Thread.Sleep(1000);
+            }
+        }
+        Tab three content. This is for testing.
+    </FluentTab>
+
+</FluentTabs>
+
+<p>Active tab changed to: @changedto?.Label</p>
+
+<h4>Vertical</h4>
+<FluentTabs Orientation="Orientation.Vertical" ActiveTabId="tab-v1">
+    <FluentTab Label="Tab one" Id="tab-v1">
+        Tab one content. This is for testing.
+    </FluentTab>
+    <FluentTab Label="Tab two" Id="tab-v2">
+        Tab two content. This is for testing.
+    </FluentTab>
+    <FluentTab Label="Tab three" Id="tab-v3">
+        Tab three content. This is for testing.
+    </FluentTab>
+</FluentTabs>
+
+<br />
+<br />
+<FluentHeader>
+    Toast
+</FluentHeader>
+<br />
+<p>Click on this button to open a Toast. The toast is created by just specifying an intent and a message.</p>
+
+<FluentButton @onclick="@ShowToast" Appearance="Appearance.Accent">Open</FluentButton>
+
+<br />
+<br />
+<FluentHeader>
+    Toolbar
+</FluentHeader>
+<br />
+<FluentIcon Id="myFirstButton" Icon="Icons.Regular.Size24.Notepad" />
+
+<FluentTooltip Anchor="myFirstButton" OnDismissed="OnDismiss">
+    Hello World <br />
+    It is a <i>small</i> tootip.
+</FluentTooltip>
+
+<br />
+<br />
+<FluentHeader>
+    TreeView
+</FluentHeader>
+<br />
+<FluentTreeView @bind-CurrentSelected=currentSelected OnExpandedChange="HandleOnExpandedChanged">
+    <FluentTreeItem Text="Root item 1">
+        <FluentTreeItem Text="Flowers">
+            <FluentTreeItem Disabled="true" Text="Daisy" />
+            <FluentTreeItem Text="Sunflower" />
+            <FluentTreeItem Text="Rose" />
+        </FluentTreeItem>
+        <FluentTreeItem Text="Nested item 2" />
+        <FluentTreeItem Text="Nested item 3" />
+    </FluentTreeItem>
+    <FluentTreeItem Text="Root item 2">
+        <FluentDivider></FluentDivider>
+        <FluentTreeItem Text="Flowers">
+            <FluentTreeItem Disabled="true" Text="Daisy" />
+            <FluentTreeItem Text="Sunflower" />
+            <FluentTreeItem Text="Rose" />
+        </FluentTreeItem>
+        <FluentTreeItem Text="Nested item 2" />
+        <FluentTreeItem Text="Nested item 3" />
+    </FluentTreeItem>
+    <FluentTreeItem Text="Root item 3 - Leaf Erikson" />
+</FluentTreeView>
+
+<p>Current selected tree item is @currentSelected?.Text</p>
+<p>Most recently expanded/collapsed tree item is @currentAffected?.Text</p>
+
+<br />
+<br />
+<FluentHeader>
+    Wizard
+</FluentHeader>
+<br />
+@inject IDialogService DialogService
+
+<FluentSwitch @bind-Value="@IsTop"
+              Style="margin: 30px;"
+              Label="Step position"
+              UncheckedMessage="Left"
+              CheckedMessage="Top" />
+
+<FluentWizard StepperPosition="@(IsTop ? StepperPosition.Top : StepperPosition.Left)"
+              DisplayStepNumber="@(WizardStepStatus.Current | WizardStepStatus.Next)"
+              Border="WizardBorder.Outside"
+              StepTitleHiddenWhen="@GridItemHidden.XsAndDown"
+              Height="300px"
+              OnFinish="@OnFinishedAsync">
+    <Steps>
+        <FluentWizardStep Label="Intro"
+                          OnChange="@OnStepChange">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut nisi eget dolor semper
+            luctus vitae a nulla. Cras semper eros sed lacinia tincidunt. Mauris dignissim ullamcorper dolor,
+            ut blandit dui ullamcorper faucibus. Interdum et malesuada fames ac ante ipsum.
+        </FluentWizardStep>
+        <FluentWizardStep Label="Get started"
+                          Summary="Begin the tasks"
+                          OnChange="@OnStepChange">
+            Maecenas sed justo ac sapien venenatis ullamcorper. Sed maximus nunc non venenatis euismod.
+            Fusce vel porta ex, imperdiet molestie nisl. Vestibulum eu ultricies mauris, eget aliquam quam.
+        </FluentWizardStep>
+        <FluentWizardStep Disabled="true"
+                          Label="Disabled step"
+                          Summary="This step is disabled"
+                          OnChange="@OnStepChange">
+            Nunc dignissim tortor eget lacus porta tristique. Nunc in posuere dui. Cras ligula ex,
+            ullamcorper in gravida in, euismod vitae purus. Lorem ipsum dolor sit amet, consectetur
+            adipiscing elit. Aliquam at velit leo. Suspendisse potenti. Cras dictum eu augue in laoreet.
+        </FluentWizardStep>
+        <FluentWizardStep Label="Set budget"
+                          Summary="Identify the best price"
+                          IconPrevious="@(new Icons.Filled.Size24.Star())"
+                          IconCurrent="@(new Icons.Filled.Size24.StarEmphasis())"
+                          IconNext="@(new Icons.Regular.Size24.Star())"
+                          DisplayStepNumber="false"
+                          OnChange="@OnStepChange">
+            Phasellus quis augue convallis, congue velit ac, aliquam ex. In egestas porttitor massa
+            aliquet porttitor. Donec bibendum faucibus urna vitae elementum. Phasellus vitae efficitur
+            turpis, eget molestie ipsum.
+            <FluentSelect Items="@(Enumerable.Range(10, 80).Select(i => i.ToString()))"
+                          Style="min-width: 70px;"
+                          Height="300px" />
+        </FluentWizardStep>
+        <FluentWizardStep Label="Summary"
+                          OnChange="@OnStepChange">
+            Ut iaculis sed magna efficitur tempor. Vestibulum est erat, imperdiet in diam ac,
+            aliquam tempus sapien. Nam rutrum mi at enim mattis, non mollis diam molestie.
+            Cras sodales dui libero, sit amet cursus sapien elementum ac. Nulla euismod nisi sem.
+        </FluentWizardStep>
+    </Steps>
+</FluentWizard>
+
+
+<br />
+<br />
+@code {
+    string activeId = "accordion-1";
+    string? listboxValue = "Item 4";
+    public string Highlight = ""; 
+    bool open = false;
+    private string status = "";
+    bool expanded = true;
+    bool _visibleL, _visibleR, _visibleM;
+    ProgressStroke Stroke = ProgressStroke.Normal;
+    int Percentage = 30;
+    bool Indeterminate = false;
+    OfficeColor Color2 = OfficeColor.Default;
+    FluentAccordionItem? changed;
+    bool loading = false;
+    List<string> Data = new List<string>()
+    {
+        "Iran","Iraq","India","Germany","Ghana","USA","UAE","UK"
+    };
+    string? hit = "";
+    string? name = "Nur Sari";
+    string? size = "";
+
+    record Person(int PersonId, string Name, DateOnly BirthDate);
+
+    IQueryable<Person> people = new[]
+    {
+        new Person(10895, "Jean Martin", new DateOnly(1985, 3, 16)),
+        new Person(10944, "António Langa", new DateOnly(1991, 12, 1)),
+        new Person(11203, "Julie Smith", new DateOnly(1958, 10, 10)),
+        new Person(11205, "Nur Sari", new DateOnly(1922, 4, 27)),
+        new Person(11898, "Jose Hernandez", new DateOnly(2011, 5, 3)),
+        new Person(12130, "Kenji Sato", new DateOnly(2004, 1, 9)),
+    }.AsQueryable();
+
+    private void HandleOnAccordionItemChange(FluentAccordionItem item)
+    {
+        changed = item;
+    }
+
+    private bool _trapFocus = true;
+    private bool _modal = true;
+
+    FluentUIBlazorDemo.Models.SimplePerson simplePerson = new()
+        {
+            Firstname = "Dan",
+            Lastname = "Sanderson",
+            Age = 42,
+        };
+
+    private async Task OpenDialogAsync()
+    {
+        Console.WriteLine($"Open dialog centered");
+
+        DialogParameters parameters = new()
+            {
+                Title = $"Hello {simplePerson.Firstname}",
+                PrimaryAction = "Yes",
+                PrimaryActionEnabled = false,
+                SecondaryAction = "No",
+                Width = "500px",
+                TrapFocus = _trapFocus,
+                Modal = _modal,
+                PreventScroll = true
+            };
+
+        IDialogReference dialog = await DialogService.ShowDialogAsync<SimpleDialog>(simplePerson, parameters);
+        DialogResult? result = await dialog.Result;
+
+
+        if (result.Data is not null)
+        {
+            FluentUIBlazorDemo.Models.SimplePerson? simplePerson = result.Data as FluentUIBlazorDemo.Models.SimplePerson;
+            Console.WriteLine($"Dialog closed by {simplePerson?.Firstname} {simplePerson?.Lastname} ({simplePerson?.Age}) - Canceled: {result.Cancelled}");
+        }
+        else
+        {
+            Console.WriteLine($"Dialog closed - Canceled: {result.Cancelled}");
+        }
+    }
+    private FluentMenuButton menubutton = new();
+
+    private Dictionary<string, string> items = new Dictionary<string, string>()
+    {
+        {"0078D4","Windows"},
+        {"D83B01","Office"},
+        {"464EB8","Teams"},
+        {"107C10","Xbox"},
+        {"8661C5","Visual Studio"},
+        {"F2C811","Power BI"},
+        {"0066FF","Power Automate"},
+        {"742774","Power Apps"},
+        {"0B556A","Power Virtual Agents"}
+    };
+
+    
+    private void OnHorizontalScrollStart(HorizontalScrollEventArgs args)
+    {
+        Console.WriteLine($"{args.Scroll}");
+    }
+
+    private void OnHorizontalScrollEnd(HorizontalScrollEventArgs args)
+    {
+        Console.WriteLine($"{args.Scroll}");
+    }
+
+    private void OnMenuChange(MenuChangeEventArgs args)
+    {
+        if (args is not null && args.Value is not null)
+            status = $"Item \"{args.Value}\" clicked";
+    }
+
+    bool? canceled;
+
+    private async Task ShowSuccessAsync()
+    {
+        var dialog = await DialogService.ShowSuccessAsync("The action was a success");
+        var result = await dialog.Result;
+        canceled = result.Cancelled;
+    }
+
+    private async Task ShowWarningAsync()
+    {
+        var dialog = await DialogService.ShowWarningAsync("This is your final warning");
+        var result = await dialog.Result;
+        canceled = result.Cancelled;
+    }
+
+    private async Task ShowErrorAsync()
+    {
+        var dialog = await DialogService.ShowErrorAsync("This is an error");
+        var result = await dialog.Result;
+        canceled = result.Cancelled;
+    }
+
+    private async Task ShowInformationAsync()
+    {
+        var dialog = await DialogService.ShowInfoAsync("This is a message");
+        var result = await dialog.Result;
+        canceled = result.Cancelled;
+    }
+
+    private async Task ShowConfirmationAsync()
+    {
+        var dialog = await DialogService.ShowConfirmationAsync("Do you have two eyes?", "Yup", "Nope", "Eyes on you");
+        var result = await dialog.Result;
+        canceled = result.Cancelled;
+    }
+
+    private async Task ShowMessageBoxLongAsync()
+    {
+        var dialog = await DialogService.ShowInfoAsync("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
+        var result = await dialog.Result;
+        canceled = result.Cancelled;
+    }
+
+    private async Task ShowMessageBoxAsync()
+    {
+        var dialog = await DialogService.ShowMessageBoxAsync(new DialogParameters<MessageBoxContent>()
+            {
+                Content = new()
+                {
+                    Title = "My title",
+                    MarkupMessage = new MarkupString("My <strong>customized</strong> message"),
+                    Icon = new Icons.Regular.Size24.Games(),
+                    IconColor = Color.Success,
+                },
+                PrimaryAction = "Plus",
+                SecondaryAction = "Minus",
+                Width = "300px",
+            });
+        var result = await dialog.Result;
+        canceled = result.Cancelled;
+    }
+
+    void OnClick(MouseEventArgs e)
+    {
+        Console.WriteLine("NavMenu item clicked");
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+
+        }
+        base.OnAfterRender(firstRender);
+    }
+
+    static string[] Catalog = new[] { "Blazor", "WPF", "Microsoft", "#Framework",
+                                      "Electron", "WinForms", "MAUI", "Fluent Reality",
+                                      "Office", "Installation", "Azure", "DevOps" };
+
+    List<string> Items = new List<string>() { Catalog[0], Catalog[1] };
+
+    void OverflowHandler(IEnumerable<FluentOverflowItem> items)
+    {
+        var text = String.Join("; ", items.Select(i => i.Text));
+
+    }
+
+    void AddNewItemClick()
+    {
+        var index = new Random().NextInt64(Catalog.Length);
+        Items.Add(Catalog[index]);
+    }
+
+    bool visible = false;
+    JustifyContent justification = JustifyContent.Center;
+    Align alignment = Align.Center;
+
+    protected void HandleOnClose()
+    {
+        Console.WriteLine("Overlay closed");
+    }
+
+    protected async Task HandleOnOpen()
+    {
+        visible = true;
+        Console.WriteLine("Overlay opened");
+        await Task.Delay(3000);
+        visible = false;
+    }
+
+        private IDialogReference? _dialog;
+
+        private readonly SimplePerson simplePerson1 = new()
+            {
+                Firstname = "Steve",
+                Lastname = "Roth",
+                Age = 42,
+            };
+
+        private async Task OpenPanelRightAsync()
+        {
+            Console.WriteLine($"Open right panel");
+
+            _dialog = await DialogService.ShowPanelAsync<SimplePanel>(simplePerson1, new DialogParameters<SimplePerson>()
+                {
+                    Content = simplePerson1,
+                    Alignment = HorizontalAlignment.Right,
+                    Title = $"Hello {simplePerson1.Firstname}",
+                    PrimaryAction = "Yes",
+                    SecondaryAction = "No",
+                });
+            DialogResult result = await _dialog.Result;
+            HandlePanel(result);
+
+
+
+        }
+
+        private async Task OpenPanelLeftAsync()
+        {
+            Console.WriteLine($"Open left panel");
+            DialogParameters<SimplePerson> parameters = new()
+                {
+                    Content = simplePerson1,
+                    Title = $"Hello {simplePerson1.Firstname}",
+                    Alignment = HorizontalAlignment.Left,
+                    Modal = false,
+                    ShowDismiss = false,
+                    PrimaryAction = "Maybe",
+                    SecondaryAction = "Cancel",
+                    Width = "500px",
+                };
+            _dialog = await DialogService.ShowPanelAsync<SimplePanel>(simplePerson1, parameters);
+            DialogResult result = await _dialog.Result;
+            HandlePanel(result);
+        }
+
+        private static void HandlePanel(DialogResult result)
+        {
+            if (result.Cancelled)
+            {
+                Console.WriteLine($"Panel cancelled");
+                return;
+            }
+
+            if (result.Data is not null)
+            {
+                SimplePerson? simplePerson = result.Data as SimplePerson;
+                Console.WriteLine($"Panel closed by {simplePerson?.Firstname} {simplePerson?.Lastname} ({simplePerson?.Age})");
+                return;
+            }
+        }
+
+    private IDialogReference? _dialog2;
+
+    private async Task OpenSplashDefaultAsync()
+    {
+        Console.WriteLine($"Open default splashscreen for 4 seconds");
+        DialogParameters<SplashScreenContent> parameters = new()
+            {
+                Content = new()
+                {
+                    Title = "Core components",
+                    SubTitle = "Microsoft Fluent UI Blazor library",
+                    LoadingText = "Loading...",
+                    Message = (MarkupString)"some <i>extra</i> text <strong>here</strong>",
+                    Logo = FluentSplashScreen.LOGO,
+                },
+                Width = "640px",
+                Height = "480px",
+            };
+        _dialog2 = await DialogService.ShowSplashScreenAsync(parameters);
+        DialogResult result = await _dialog.Result;
+        await HandleDefaultSplash(result);
+    }
+
+
+    private void OpenSplashDefault()
+    {
+        Console.WriteLine($"Open default splashscreen for 4 seconds");
+        DialogParameters<SplashScreenContent> parameters = new()
+            {
+                Content = new()
+                {
+                    Title = "Core components",
+                    SubTitle = "Microsoft Fluent UI Blazor library",
+                    LoadingText = "Loading...",
+                    Message = (MarkupString)"some <i>extra</i> text <strong>here</strong>",
+                    Logo = FluentSplashScreen.LOGO,
+                },
+                Width = "640px",
+                Height = "480px",
+            };
+        DialogService.ShowSplashScreen(this, HandleDefaultSplash, parameters);
+    }
+
+    private async Task HandleDefaultSplash(DialogResult result)
+    {
+        await Task.Run(() => Console.WriteLine($"Default splash closed"));
+    }
+    
+    bool DeferredLoading = false;
+
+    string? activeid = "tab-1";
+    FluentTab? changedto;
+
+    private void HandleOnTabChange(FluentTab tab)
+    {
+        changedto = tab;
+    }
+
+    int counter = 1;
+    void ShowToast()
+    {
+        Random rnd = new();
+
+        var intent = Enum.GetValues<ToastIntent>()[rnd.Next(10)];
+        var message = $"Simple Toast #{counter++}";
+        ToastService.ShowToast(intent, message);
+    }
+
+    private void OnDismiss()
+    {
+        Console.WriteLine("Tooltip dismissed!");
+    }
+
+    FluentTreeItem? currentSelected;
+    FluentTreeItem? currentAffected;
+
+    private void HandleOnExpandedChanged(FluentTreeItem item)
+    {
+        currentAffected = item;
+    }
+
+    bool IsTop = false;
+
+    void OnStepChange(FluentWizardStepChangeEventArgs e)
+    {
+        Console.WriteLine($"Go to step {e.TargetLabel} (#{e.TargetIndex})");
+    }
+
+    async Task OnFinishedAsync()
+    {
+        await DialogService.ShowInfoAsync("Wizard completed");
+    }
+}

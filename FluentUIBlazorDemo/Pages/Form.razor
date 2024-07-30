@@ -1,0 +1,353 @@
+﻿@page "/form"
+
+<FluentHeader>
+    Autocomplete
+</FluentHeader>
+<br />
+<FluentAutocomplete TOption="Country"
+                    AutoComplete="off"
+                    Label="Select a country"
+                    Width="250px"
+                    Placeholder="Select countries"
+                    OnOptionsSearch="@OnSearchAsync"
+                    MaximumSelectedOptions="3"
+                    OptionText="@(item => item.Name)"
+                    @bind-SelectedOptions="@SelectedItems" />
+
+<p>
+    <b>Selected</b>: @(String.Join(" - ", SelectedItems.Select(i => i.Name)))
+</p>
+
+@code
+{
+    
+}
+
+<br />
+<br />
+<FluentHeader>
+    Checkbox
+</FluentHeader>
+<br />
+<h4>Horizontal</h4>
+<FluentStack>
+    <FluentCheckbox @bind-Value="@value3" Label="Apples" />
+    <FluentCheckbox @bind-Value="@value4" Disabled="true" Label="Bananas (disabled)" />
+    <FluentCheckbox @bind-Value="@value5" Label="Oranges" />
+</FluentStack>
+
+<br />
+<br />
+
+<h4>Vertical</h4>
+<FluentStack Orientation="Orientation.Vertical">
+    <FluentCheckbox @bind-Value="@value3">Apples</FluentCheckbox>
+    <FluentCheckbox @bind-Value="@value4" Disabled="true">Bananas (disabled)</FluentCheckbox>
+    <FluentCheckbox @bind-Value="@value5">Oranges</FluentCheckbox>
+</FluentStack>
+
+<br />
+<br />
+<FluentHeader>
+    InputFile
+</FluentHeader>
+<br />
+<FluentInputFile Id="my-file-uploader"
+                 Mode="InputFileMode.SaveToTemporaryFolder"
+                 Multiple="true"
+                 MaximumFileCount="4"
+                 MaximumFileSize="@(10*1024*1024)"
+                 Accept="image/*"
+                 @bind-ProgressPercent="@ProgressPercent"
+                 OnCompleted="@OnCompletedAsync"
+                 Style="height: 300px; border: 1px dashed var(--accent-fill-rest);">
+    <ChildContent>
+        <label for="my-file-uploader">
+            <FluentIcon Value="@(new @Icons.Regular.Size24.ArrowUpload())" />
+        </label>
+
+        <div>
+            Drag files here you wish to upload,
+            or <label for="my-file-uploader">browse</label>
+            for them<span style="color: red;">*</span>.
+            <br />
+            <em>Maximum of 4 files allowed.</em>
+        </div>
+
+        <div>
+            <br />
+            <a href="#">Read more about our supported file formats.</a>
+        </div>
+    </ChildContent>
+</FluentInputFile>
+
+@if (Files.Any())
+{
+    <h4>File(s) uploaded:</h4>
+    <ul>
+        @foreach (var file in Files)
+        {
+            <li>
+                <b>@file.Name</b> 🔹
+                @($"{Decimal.Divide(file.Size, 1024):N} KB") 🔹
+                @file.ContentType 🔹
+                @file.LocalFile?.FullName
+                @file.ErrorMessage
+            </li>
+        }
+    </ul>
+}
+
+<br />
+<br />
+<FluentHeader>
+    Number field
+</FluentHeader>
+<br />
+
+<p>
+    <FluentNumberField @bind-Value="exampleInt" Label="Integer" />
+    <br />
+    Example int: @exampleInt
+    <br />
+    Minimum value: @(int.MinValue); Maximum value: @(int.MaxValue)
+</p>
+<p>
+    <FluentNumberField @bind-Value="exampleNullableInt" Label="Nullable integer" />
+    <br />
+    Example nullable int: @exampleNullableInt
+    <br />
+    Minimum value: @(int.MinValue); Maximum value: @(int.MaxValue)
+</p>
+<p>
+    Same as above but bound to oninput event
+    <br />
+    <FluentNumberField @bind-Value="exampleInt2"
+                       Appearance="FluentInputAppearance.Filled"
+                       @oninput="@(e => Int32.TryParse(e.Value?.ToString(), out exampleInt2))"
+                       Label="Integer" />
+    <br />
+    Example int: @exampleInt2
+</p>
+<p>
+    Nullable int bound to oninput event
+    <br />
+    <FluentNumberField @bind-Value="exampleNullableInt2"
+                       Appearance="FluentInputAppearance.Filled"
+                       @oninput="@(e => exampleNullableInt2 = int.TryParse(e.Value?.ToString(), out int tmp) ? (int?)tmp : null)"
+                       Label="Nullable integer" />
+    <br />
+    Example nullable int: @exampleNullableInt2
+</p>
+
+<br />
+<br />
+<FluentHeader>
+    Radio
+</FluentHeader>
+<br />
+<p>Without a label: <FluentRadioGroup @bind-Value=value1><FluentRadio AriaLabel="Radio without label"></FluentRadio></FluentRadioGroup></p>
+<p>With a label: <FluentRadioGroup @bind-Value=value2><FluentRadio Label="label"></FluentRadio></FluentRadioGroup></p>
+
+<br />
+<br />
+<FluentHeader>
+    Radio Group
+</FluentHeader>
+<br />
+<div>
+    <FluentRadioGroup Name="numbers" @bind-Value=value1 Label="Numbers">
+        <FluentRadio Value=@("one")>One</FluentRadio>
+        <FluentRadio Value=@("two")>Two</FluentRadio>
+    </FluentRadioGroup>
+</div>
+
+<h4>Single radio</h4>
+<div style="display: flex; flex-direction: column; margin-top: 12px;">
+    <FluentRadioGroup @bind-Value=value2 Name="players" Label="Best basketball players">
+        <FluentRadio Value=@("airjordan")>Michael Jordan</FluentRadio>
+    </FluentRadioGroup>
+</div>
+
+<br />
+<br />
+<FluentHeader>
+    Search
+</FluentHeader>
+<br />
+<div>
+    Without a label: <FluentSearch @bind-Value=value AriaLabel="Search" />
+</div>
+<div>
+    <FluentSearch @bind-Value=value Label="With a label" />
+</div>
+
+<br />
+<br />
+<FluentHeader>
+    Slider
+</FluentHeader>
+<br />
+<div style="margin-bottom: 60px;">
+    <FluentButton style="width: 90px; margin: 10px;" @onclick="() => orientation = (orientation == Orientation.Vertical) ? Orientation.Horizontal : Orientation.Vertical">Toggle orientation</FluentButton>
+    <FluentSlider Label="Select a temperature" Orientation="@orientation" Min="0" Max="100" Step="10" @bind-Value=sliderValue>
+        <FluentSliderLabel Position="0">0&#8451;</FluentSliderLabel>
+        <FluentSliderLabel Position="10">10&#8451;</FluentSliderLabel>
+        <FluentSliderLabel Position="90">90&#8451;</FluentSliderLabel>
+        <FluentSliderLabel Position="100">100&#8451;</FluentSliderLabel>
+    </FluentSlider>
+</div>
+<p>Selected value: @sliderValue</p>
+
+<br />
+<br />
+<FluentHeader>
+    Slider
+</FluentHeader>
+<br />
+<div style="display: flex; flex-direction: column; gap: 0.5rem;">
+    <FluentSwitch @bind-Value=value3 AriaLabel="No label"></FluentSwitch>
+    <FluentSwitch @bind-Value=value4 Label=" Dark Mode" />
+    <FluentSwitch @bind-Value=@value5 Label="New Feature">
+        <span slot="checked-message">On</span>
+        <span slot="unchecked-message">Off</span>
+    </FluentSwitch>
+    <FluentSwitch @bind-Value=value6 Label="Theme">
+        <span slot="checked-message">Dark</span>
+        <span slot="unchecked-message">Light</span>
+    </FluentSwitch>
+</div>
+
+<p>New feature: @value3</p>
+
+<br />
+<br />
+<FluentHeader>
+    Text area
+</FluentHeader>
+<br />
+<p>Without label: <FluentTextArea @bind-Value=value1 AriaLabel="Without label"></FluentTextArea></p>
+<p>
+    <FluentTextArea @bind-Value=value2 Label="With label:" />
+</p>
+<h4>Full Width</h4>
+<FluentTextArea @bind-Value=value1 style="width: 100%;"></FluentTextArea>
+
+<h4>Placeholder</h4>
+<FluentTextArea @bind-Value=value2 Placeholder="Placeholder"></FluentTextArea>
+
+<br />
+<br />
+<FluentHeader>
+    Text field
+</FluentHeader>
+<br />
+<p>Without label:</p>
+<FluentTextField @bind-Value=value AriaLabel="No label"></FluentTextField>
+<p>You entered: @value1</p>
+
+<p>With label:</p>
+<FluentTextField @bind-Value=value0 Label="Label"></FluentTextField>
+<p>You entered: @value2</p>
+
+<h4>Minlength</h4>
+<FluentTextField @bind-Value=value1 Minlength="4" Label="Minlength"></FluentTextField>
+<p>You entered: @value3</p>
+
+<h4>Maxlength</h4>
+<FluentTextField @bind-Value=value2 Maxlength="4" Label="Maxlength"></FluentTextField>
+<p>You entered: @value4</p>
+
+
+<br />
+<br />
+<FluentHeader>
+    Date & Time
+</FluentHeader>
+<br />
+<FluentGrid>
+    <FluentGridItem>
+        <FluentCalendar DisabledDateFunc="@DisabledDay" @bind-Value="@SelectedDay" @bind-PickerMonth="@PickerDay" Style="height: 250px;" />
+        <p>Selected @(SelectedDay?.ToString("yyyy-MM-dd"))</p>
+        <p>Panel @(PickerDay.ToString("yyyy-MM-dd"))</p>
+    </FluentGridItem>
+    <FluentGridItem>
+        <FluentCalendar DisabledDateFunc="@DisableMonth" View="CalendarViews.Months" @bind-Value="@SelectedMonth" @bind-PickerMonth="@PickerMonth" Style="height: 250px;" />
+        <p>Selected @(SelectedMonth?.ToString("yyyy-MM-dd"))</p>
+        <p>Panel @(PickerMonth.ToString("yyyy-MM-dd"))</p>
+    </FluentGridItem>
+    <FluentGridItem>
+        <FluentCalendar DisabledDateFunc="@DisableYear" View="CalendarViews.Years" @bind-Value="@SelectedYear" @bind-PickerMonth="@PickerYear" Style="height: 250px;" />
+        <p>Selected @(SelectedYear?.ToString("yyyy-MM-dd"))</p>
+        <p>Panel @(PickerYear.ToString("yyyy-MM-dd"))</p>
+    </FluentGridItem>
+</FluentGrid>
+<br />
+<br />
+
+@code
+{
+    int ProgressPercent = 0;
+    int exampleInt { get; set; } = 123;
+    private int? exampleNullableInt = null;
+    private int exampleInt2 = 345;
+    private int? exampleNullableInt2 = null;
+    string? value;
+    string? value0, value1, value2;
+    bool value3 = true;
+    bool value4 = true;
+    bool value5,value6;
+    Orientation orientation = Orientation.Horizontal;
+    int sliderValue = 70; 
+    private DateTime? SelectedDay = null;
+    private DateTime PickerDay = DateTime.Today;
+    private DateTime? SelectedMonth = null;
+    private DateTime PickerMonth = DateTime.Today;
+    private DateTime? SelectedYear = null;
+    private DateTime PickerYear = DateTime.Today;
+
+    private bool DisabledDay(DateTime date) => date.Day == 3 || date.Day == 8 || date.Day == 20;
+    private bool DisableMonth(DateTime date) => date.Month == 3 || date.Month == 8;
+    private bool DisableYear(DateTime date) => date.Year == 2026 || date.Year == 2027;
+
+    List<Country> Data = new List<Country>()
+    {
+        new Country{Name="Iran"},
+        new Country{Name="Iraq"},
+        new Country{Name="India"},
+        new Country{Name="Germany"},
+        new Country{Name="Ghana"},
+        new Country{Name="USA"},
+        new Country{Name="UAE"},
+        new Country{Name="UK"}
+    };
+    IEnumerable<Country> SelectedItems = Array.Empty<Country>();
+
+    private async Task OnSearchAsync(OptionsSearchEventArgs<Country> e)
+    {
+        var allCountries = Data;
+        e.Items = allCountries.Where(i => i.Name.StartsWith(e.Text, StringComparison.OrdinalIgnoreCase))
+                              .OrderBy(i => i.Name);
+    }
+    FluentInputFileEventArgs[] Files = Array.Empty<FluentInputFileEventArgs>();
+
+    private async Task OnCompletedAsync(IEnumerable<FluentInputFileEventArgs> files)
+    {
+        Files = files.ToArray();
+
+        // For the demo, delete these files.
+        foreach (var file in Files)
+        {
+            file.LocalFile?.Delete();
+        }
+
+        // Wait 3 seconds before to reset the progress bar.
+        await Task.Delay(3000);
+        ProgressPercent = 0;
+    }
+
+    public class Country
+    {
+        public string Name { get; set; }
+    }
+}

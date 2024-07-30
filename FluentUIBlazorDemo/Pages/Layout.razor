@@ -1,0 +1,269 @@
+﻿@page "/"
+@namespace FluentUI.Demo.Shared
+
+<FluentHeader>
+    Header
+</FluentHeader>
+
+<br />
+<br />
+<FluentHeader>
+    BodyContent
+</FluentHeader>
+<br />
+<FluentBodyContent>
+    This is some content displayed in a FluentBodyContent component.
+</FluentBodyContent>
+
+<br />
+<br />
+<FluentHeader>
+    Grid
+</FluentHeader>
+<br />
+<FluentSelect Items=@(Enum.GetValues<JustifyContent>())
+              OptionValue="@(c => c.ToAttributeValue())"
+              TOption="JustifyContent"
+              Position="SelectPosition.Below"
+              @bind-SelectedOption="@Justification" />
+<br />
+<br />
+<FluentGrid Spacing="3" OnBreakpointEnter="@OnBreakpointEnterHandler" Justify="@Justification" Style="background-color: var(--neutral-layer-3);">
+    <FluentGridItem xs="12">
+        <div class="card">
+            xs="12"
+        </div>
+    </FluentGridItem>
+    <FluentGridItem xs="12" sm="6" HiddenWhen="GridItemHidden.SmAndDown">
+        <div class="card">
+            xs="12" sm="6" Hidden="SmAndDown"
+        </div>
+    </FluentGridItem>
+    <FluentGridItem xs="12" sm="6">
+        <div class="card">
+            xs="12" sm="6"
+        </div>
+    </FluentGridItem>
+    <FluentGridItem xs="6" sm="3">
+        <div class="card">
+            xs="6" sm="3"
+        </div>
+    </FluentGridItem>
+    <FluentGridItem xs="6" sm="3">
+        <div class="card">
+            xs="6" sm="3"
+        </div>
+    </FluentGridItem>
+    <FluentGridItem xs="6" sm="3">
+        <div class="card">
+            xs="6" sm="3"
+        </div>
+    </FluentGridItem>
+    <FluentGridItem xs="6" sm="3">
+        <div class="card">
+            xs="6" sm="3"
+        </div>
+    </FluentGridItem>
+    <FluentGridItem xs="3">
+        <div class="card">
+            xs="3"
+        </div>
+    </FluentGridItem>
+</FluentGrid>
+
+<br />
+<br />
+<FluentHeader>
+    Layout
+</FluentHeader>
+<br />
+<FluentSwitch Style="width: 150px;" @bind-Value="ShowHeader">Header</FluentSwitch>
+<FluentSwitch Style="width: 150px;" @bind-Value="ShowNavMenu">NavMenu</FluentSwitch>
+<FluentSwitch Style="width: 150px;" @bind-Value="ShowBodyContent">BodyContent</FluentSwitch>
+<FluentSwitch Style="width: 150px;" @bind-Value="ShowFooter">Footer</FluentSwitch>
+
+<FluentLayout Style="margin-top: 10px;">
+    @if (ShowHeader)
+    {
+        <FluentHeader>
+            Some Header Text
+            <FluentSpacer />
+            Aligned to the end
+        </FluentHeader>
+    }
+
+    <FluentStack Orientation="Orientation.Horizontal" Width="100%">
+        @if (ShowNavMenu)
+        {
+            <FluentNavMenu Width="250">
+                <FluentNavLink Icon="@(new Icons.Regular.Size24.Home())">Item 1</FluentNavLink>
+                <FluentNavLink Icon="@(new Icons.Regular.Size24.Cloud())">Item 2</FluentNavLink>
+                <FluentNavGroup Title="Item 3">
+                    <FluentNavLink Icon="@(new Icons.Regular.Size24.LeafOne())">Item 3.1</FluentNavLink>
+                    <FluentNavLink Icon="@(new Icons.Regular.Size24.LeafTwo())">Item 3.2</FluentNavLink>
+                </FluentNavGroup>
+                <FluentNavLink Icon="@(new Icons.Regular.Size24.CalendarAgenda())" Disabled="true">Item 4</FluentNavLink>
+            </FluentNavMenu>
+        }
+
+        @if (ShowBodyContent)
+        {
+            <FluentBodyContent>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce quis lorem lacus.
+                Ut id leo non enim feugiat ultrices. Proin vulputate volutpat urna nec iaculis.
+                Integer dui lacus, fermentum sit amet aliquet in, scelerisque vitae dui.
+                Nulla fringilla sagittis orci eu consectetur. Fusce eget dolor non lectus placerat
+                tincidunt. Pellentesque aliquam non odio ac porttitor. Nam finibus mattis sagittis.
+                Ut hendrerit porttitor massa in aliquam. Duis laoreet fringilla feugiat.
+                Sed maximus, urna in fringilla posuere, enim urna bibendum justo, vel molestie nibh orci nec lectus.
+                Etiam a varius justo. Aenean nisl ante, interdum eget vulputate eget, iaculis ut massa.
+                Suspendisse maximus sed purus id molestie. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </FluentBodyContent>
+        }
+    </FluentStack>
+
+    @if (ShowFooter)
+    {
+        <FluentFooter Style="@("height: 40px; color: white; text-align: center;")">
+            Footer Text
+        </FluentFooter>
+    }
+</FluentLayout>
+
+<br />
+<br />
+<FluentHeader>
+    MainLayout
+</FluentHeader>
+<br />
+<div style="height: 500px;">
+    <FluentMainLayout NavMenuTitle="Navigation menu">
+        <SubHeader><p>A subheader here</p></SubHeader>
+        <Body>
+            Lorum ipsum...
+        </Body>
+        <NavMenuContent>
+            <FluentNavLink Href="/" Text="Home">Home</FluentNavLink>
+        </NavMenuContent>
+    </FluentMainLayout>
+</div>
+
+<br />
+<br />
+<FluentHeader>
+    Spacer
+</FluentHeader>
+<br />
+<div style="display: flex; width=100%">
+    <FluentIcon Value="@(new Icons.Filled.Size48.Alert())" Color="@Color.Neutral" />
+    <FluentSpacer />
+    <FluentIcon Value="@(new Icons.Filled.Size48.Alert())" Color="@Color.Accent" />
+    <FluentSpacer />
+    <FluentIcon Value="@(new Icons.Filled.Size48.Alert())" Color="@Color.Warning" />
+    <FluentSpacer />
+    <FluentIcon Value="@(new Icons.Filled.Size48.Alert())" Color="@Color.Info" />
+</div>
+
+<br />
+<br />
+<FluentHeader>
+    Splitter
+</FluentHeader>
+<br />
+<FluentSelect Items=@(Enum.GetValues<Orientation>())
+              OptionValue="@(c => c.ToAttributeValue())"
+              TOption="Orientation"
+              Position="SelectPosition.Below"
+              @bind-SelectedOption="@orientation" />
+<br />
+<br />
+
+<FluentSplitter Orientation="@orientation" OnResized=OnResizedHandler BarSize="6" Panel1MinSize="15%" Panel2MinSize="50px">
+    <Panel1>
+        <div class="demopanel">
+            <p>
+                Panel 1 -  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Eget dolor morbi non arcu risus quis varius. Turpis tincidunt id aliquet risus feugiat in ante. Eros donec ac odio tempor orci
+                dapibus ultrices in iaculis. Sit amet justo donec enim diam vulputate ut. Morbi blandit cursus risus at ultrices mi tempus. Sed
+                ullamcorper morbi tincidunt ornare massa eget egestas. Mi eget mauris pharetra et ultrices neque. Sit amet porttitor eget dolor
+                morbi non arcu risus quis. Tempus egestas sed sed risus pretium quam vulputate dignissim. Diam vel quam elementum pulvinar. Enim
+                nulla aliquet porttitor lacus luctus accumsan. Convallis tellus id interdum velit laoreet id donec ultrices. Dui faucibus in ornare
+                quam viverra orci sagittis.
+            </p>
+        </div>
+    </Panel1>
+    <Panel2>
+        <div class="demopanel">
+            <p>
+                Panel 2 - Neque laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt. Suspendisse faucibus interdum posuere lorem ipsum
+                dolor sit amet. Imperdiet sed euismod nisi porta lorem mollis aliquam. Malesuada proin libero nunc consequat interdum. Amet nisl purus
+                in mollis nunc sed id semper risus. Nunc sed augue lacus viverra vitae congue eu. Fermentum dui faucibus in ornare quam viverra. Ut eu
+                sem integer vitae. Interdum velit laoreet id donec ultrices tincidunt arcu non. Pellentesque dignissim enim sit amet. Scelerisque purus
+                semper eget duis at.
+            </p>
+        </div>
+    </Panel2>
+</FluentSplitter>
+
+<br />
+<br />
+<FluentHeader>
+    Stack
+</FluentHeader>
+<br />
+
+<p>Alignment of the Stack content elements:</p>
+<FluentStack>
+    <div style="width: 150px;">
+        Horizontal<FluentListbox Items=@(Enum.GetValues<HorizontalAlignment>()) @bind-SelectedOption="@Horizontal" />
+    </div>
+    <div style="width: 150px;">
+        Vertical<FluentListbox Items=@(Enum.GetValues<VerticalAlignment>()) @bind-SelectedOption="@Vertical" />
+    </div>
+</FluentStack>
+
+<p>Result:</p>
+<FluentStack Orientation="Orientation.Vertical"
+             HorizontalAlignment="@Horizontal"
+             VerticalAlignment="@Vertical"
+             VerticalGap="20"
+             Style="height: 200px; border: 1px dotted var(--accent-fill-rest)">
+    <div class="demopanel">Vertical item 1</div>
+    <div class="demopanel">Vertical item 2</div>
+    <FluentStack Orientation="Orientation.Horizontal"
+                 HorizontalAlignment="@Horizontal"
+                 VerticalAlignment="@Vertical"
+                 HorizontalGap="4"
+                 Style="border: 1px dotted var(--accent-fill-rest)">
+        <div class="demopanel" style="width: 150px">Horizontal <br />item 1</div>
+        <div class="demopanel">Horizontal item 2</div>
+    </FluentStack>
+</FluentStack>
+
+<FluentFooter>
+    Footer
+</FluentFooter>
+<br />
+<br />
+
+@code
+{
+    Orientation orientation = Orientation.Horizontal;
+    JustifyContent Justification = JustifyContent.FlexStart;
+
+    void OnBreakpointEnterHandler(GridItemSize size)
+    {
+        Console.WriteLine($"Page Size: {size}");
+    }
+    private void OnResizedHandler(SplitterResizedEventArgs args)
+    {
+        Console.WriteLine($"Size changed: {args.Panel1Size}, {args.Panel2Size}");
+    }
+
+    bool ShowHeader = true;
+    bool ShowNavMenu = true;
+    bool ShowBodyContent = true;
+    bool ShowFooter = true;
+    HorizontalAlignment Horizontal;
+    VerticalAlignment Vertical;
+}
